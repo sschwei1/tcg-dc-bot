@@ -13,7 +13,7 @@ export const buildRoleAssignmentEmbed = (roles: Array<ReactionRoleAssignment>) =
        .setColor('#f2cd66')
        .addFields([{
             name: 'Available Roles: ',
-            value: roles.map((role) => `${getEmojiString(role.emojiName, role.emojiId)} - ${role.description}`).join('\n') || 'No roles available',
+            value: roles.map((role) => `${getEmojiString(role.emojiName, role.emojiId)}  >> ${role.role}`).join('\n') || 'No roles available',
         }])
        .setTimestamp()
        .setFooter({ text: 'Role Assignment Bot by lasgce' });

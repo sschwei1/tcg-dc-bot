@@ -7,8 +7,7 @@ import { buildRoleAssignmentEmbed } from '@utils/embedBuilder';
 enum AddRoleToPollParametersEnum {
     Channel = 'channel',
     Emoji = 'emoji',
-    Role = 'role',
-    Descriptoin = 'description'
+    Role = 'role'
 }
 
 type AddRoleToPollParameters = `${AddRoleToPollParametersEnum}`;
@@ -32,18 +31,12 @@ addReactionToPollCommand
         option.setName(AddRoleToPollParametersEnum.Role)
             .setDescription('Role to add to the embed.')
             .setRequired(true)
-    )
-    .addStringOption((option) =>
-        option.setName(AddRoleToPollParametersEnum.Descriptoin)
-            .setDescription('Description of the role.')
-            .setRequired(true)
     );
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
     const channel = interaction.options.getChannel(AddRoleToPollParametersEnum.Channel);
     const emojiText = interaction.options.getString(AddRoleToPollParametersEnum.Emoji) || '';
     const role = interaction.options.getRole(AddRoleToPollParametersEnum.Role);
-    const description = interaction.options.getString(AddRoleToPollParametersEnum.Descriptoin) || '';
 
     if(!(channel instanceof TextChannel)) {
         await interaction.reply('Channel is not a text channel.');
@@ -73,8 +66,6 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
         partEmoji.name :
         interaction.client.emojis.cache.find(em => em.name === partEmoji?.name)?.id;
 
-    console.log(emojiText, partEmoji, emoji);
-
     if(!emoji) {
         await interaction.reply('Emoji was not found.');
         return;
@@ -88,8 +79,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
     entry.reactionRoleAssignments.push({
         emojiId: partEmoji?.id,
         emojiName: partEmoji?.name,
-        role,
-        description
+        role
     });
 
     await entry.message.react(emoji);
