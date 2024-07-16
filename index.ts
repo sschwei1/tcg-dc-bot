@@ -69,7 +69,6 @@ client.on(Events.MessageReactionRemove, (reaction, user) => {
     if(reactionRoleAssignments) {
         reaction.message.guild?.members.fetch(user.id || '')
             .then((member) => {
-                console.log(member.displayName);
                 member.roles.remove(reactionRoleAssignments.role);
             });
     }
